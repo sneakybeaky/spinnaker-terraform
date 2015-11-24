@@ -9,6 +9,12 @@ Use the standard terraform flow and make sure your AWS key is made available, e.
 	$ export AWS_ACCESS_KEY_ID=<access_key_id>
 	$ export AWS_SECRET_ACCESS_KEY=<secret_access_key>
 	
+You will probably want to override the ssh key name and AWS region to use:
+
+	$ terraform plan \
+  		-var 'key_name=your_ssh_key_name' \
+  		-var 'aws_region=us-east-1'
+	
 ## Connecting to an existing setup
 
 Once running you have to use SSH tunneling to connect to the spinnaker instance.
