@@ -2,7 +2,7 @@ resource "aws_vpc" "spinnaker" {
     cidr_block = "${var.vpc_cidr}"
     enable_dns_hostnames = true
     tags {
-        Name = "Spinnaker VPC"
+        Name = "spinnakervpc"
     }
 }
 
@@ -19,12 +19,14 @@ resource "aws_internet_gateway" "spinnaker" {
 */
 
 resource "aws_subnet" "spinnaker_public" {
+    depends_on = ["aws_security_group.spinnaker"]
 	vpc_id = "${aws_vpc.spinnaker.id}"
 	
 	cidr_block = "${var.public_subnet_cidr}"
 
     tags {
-        Name = "Spinnaker Public Subnet"
+        Name = "spinnakervpc.internal.${var.aws_region}"
+        immutable_metadata = "{\"purpose\": \"internal\"}"
     }	
 }
 

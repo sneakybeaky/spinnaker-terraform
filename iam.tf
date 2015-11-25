@@ -1,3 +1,29 @@
+resource "aws_iam_user" "spinnaker_user" {
+    name = "my-aws-account"
+}
+
+
+resource "aws_iam_role" "base_iam_role" {
+    name = "BaseIAMRole"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+
+
 resource "aws_iam_role_policy" "spinnaker_policy" {
     name = "spinnaker_policy"
     role = "${aws_iam_role.spinnaker_role.id}"
