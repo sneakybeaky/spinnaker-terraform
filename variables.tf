@@ -11,17 +11,14 @@ variable "aws_secret_key" {
   description = "AWS Secret Key."
 }
 
+
+variable "my-aws-account-public-key" {
+  description = "Public key to use for the my-aws-account-keypair"
+}
+
 variable "spinnaker_amis" {
 	default = {
-		eu-west-1 = "ami-7537ed06"
-		us-east-1 = "ami-3acb8e50"
-		us-west-1 = "ami-a1ed83c1"
-		us-west-2 = "ami-ef65758e"
-		eu-central-1 = "ami-18253774"
-		ap-southeast-1 = "ami-899a5bea"
-		ap-southeast-2 = "ami-f5411896"
-		ap-northeast-1 = "ami-0cc2e162"
-		sa-east-1 = "ami-3a2c9656"
+		us-east-1 = "ami-d05e75b8"
 	}
 }
 
@@ -42,5 +39,5 @@ variable "private_subnet_cidr" {
 
 variable "key_name" {
     description = "SSH Key Name"
-    default = "spinnaker-testing"
+    default = "spinnaker-us-east"
 }

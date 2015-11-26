@@ -1,27 +1,11 @@
-resource "aws_iam_user" "spinnaker_user" {
+resource "aws_iam_user" "spinnaker_user_account" {
     name = "my-aws-account"
 }
 
-
-resource "aws_iam_role" "base_iam_role" {
-    name = "BaseIAMRole"
-    assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+resource "aws_key_pair" "my-aws-account-keypair" {
+  key_name = "my-aws-account-keypair"
+  public_key = "${var.my-aws-account-public-key}"
 }
-EOF
-}
-
 
 
 resource "aws_iam_role_policy" "spinnaker_policy" {
@@ -63,6 +47,32 @@ assume_role_policy = <<EOF
 }
 EOF
 }
+
+resource "aws_iam_role" "spinnaker_base_iam_role" {
+    name = "base_iam_role"
+assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "base_iam_profile" {
+    name = "BaseIAMRole"
+    roles = ["${aws_iam_role.spinnaker_base_iam_role.name}"]
+}
+
+
 
 resource "aws_iam_policy_attachment" "spinnaker-attach" {
     name = "spinnaker-attachment"
